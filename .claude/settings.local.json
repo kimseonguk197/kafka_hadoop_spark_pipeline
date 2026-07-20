@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sed -i '/^\\\\s*\\\\.master\\(\"local\\\\[\\\\*\\\\]\"\\)$/d' src/main/java/com/example/spark/*.java)",
+      "Bash(sed -i 's/--master local\\\\[\\\\*\\\\]/--master spark:\\\\/\\\\/spark-master:7077/g' src/main/java/com/example/spark/*.java)"
+    ]
+  }
+}
