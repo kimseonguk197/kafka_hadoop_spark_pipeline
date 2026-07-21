@@ -9,7 +9,7 @@ import org.apache.spark.sql.types.StructType;
 
 import static org.apache.spark.sql.functions.*;
 
-public class Ex04StructuredStreaming {
+public class Ex04JsonStreaming {
     public static void main(String[] args) throws Exception {
         SparkSession spark = SparkSession.builder()
                 .appName("StreamingBasics")
@@ -31,6 +31,8 @@ public class Ex04StructuredStreaming {
         Dataset<Row> processedDf = streamingDf.filter(col("age").geq(19));
 
         // 3. 실시간 HDFS 저장
+        // path: 실제 결과 데이터(정제된 Parquet 파일)가 쌓이는 곳
+        // checkpointLocation: 데이터가 아니라 이 스트리밍 쿼리의 진행 상태가 기록되는 곳
         StreamingQuery query = processedDf.writeStream()
                 .outputMode("append")
                 .format("parquet") // 저장 포맷 지정 (json, parquet 등)

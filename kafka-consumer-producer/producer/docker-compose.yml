@@ -6,14 +6,18 @@ services:
     container_name: kafka
     ports:
       - "9092:9092"
+      - "29092:29092"  # 같은 docker network 안 컨테이너(이후 spark에서 사용)가 접근할 때 사용
     environment:
       # 단일 브로커
       KAFKA_NODE_ID: 1
       # 여기서 controller가 ZooKeeper의 역할을 대체
       KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      # 리스너를 용도별로 분리
+      KAFKA_LISTENERS: HOST://:9092,CONTROLLER://:9093,DOCKER://:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: HOST:PLAINTEXT,CONTROLLER:PLAINTEXT,DOCKER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: HOST
       # 외부에서 이 브로커를 접근할 때 사용할 주소와 포트
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: HOST://localhost:9092,DOCKER://host.docker.internal:29092
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
       KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
