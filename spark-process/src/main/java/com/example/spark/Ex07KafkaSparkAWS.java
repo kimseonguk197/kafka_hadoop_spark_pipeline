@@ -56,8 +56,8 @@ public class Ex07KafkaSparkAWS {
 
         // 6. AWS S3(Parquet)에 저장 설정
         // TODO: 본인의 S3 버킷 이름으로 변경하세요
-        String s3RefinedPath = "s3a://your-s3-bucket-name/refined_data/member_stream/";
-        String s3CheckpointPath = "s3a://your-s3-bucket-name/checkpoints/ex06/";
+        String s3RefinedPath = "s3a://my-kafka-spark-bucket/refined_data/member_stream/";
+        String s3CheckpointPath = "s3a://my-kafka-spark-bucket/checkpoints/ex06/";
 
         StreamingQuery query = refinedDf.writeStream()
                 .outputMode("append")
