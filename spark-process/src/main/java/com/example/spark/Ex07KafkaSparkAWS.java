@@ -34,7 +34,7 @@ public class Ex07KafkaSparkAWS {
 
         // 3. AWS MSK 구독 설정
         // TODO: 본인의 MSK 브로커 엔드포인트 주소들로 변경하세요 (예: b-1.xxx, b-2.xxx)
-        String mskBootstrapServers = "c-10001.cjmsk.lhd0qr.c4.kafka.ap-northeast-2.amazonaws.com:9092,c-10002.cjmsk.lhd0qr.c4.kafka.ap-northeast-2.amazonaws.com:9092";
+        String mskBootstrapServers = "b-1.cjmsk.lhd0qr.c4.kafka.ap-northeast-2.amazonaws.com:9092,b-2.cjmsk.lhd0qr.c4.kafka.ap-northeast-2.amazonaws.com:9092";
 
         Dataset<Row> kafkaDf = spark.readStream()
                 .format("kafka")
@@ -42,7 +42,7 @@ public class Ex07KafkaSparkAWS {
                 .option("subscribe", "member-topic")
                 .option("startingOffsets", "latest") // 또는 earliest
                 .load();
-
+        
         // 4. Kafka record 값 파싱
         Dataset<Row> memberDf = kafkaDf
                 .selectExpr("CAST(value AS STRING) AS json_value")
@@ -56,8 +56,8 @@ public class Ex07KafkaSparkAWS {
 
         // 6. AWS S3(Parquet)에 저장 설정
         // TODO: 본인의 S3 버킷 이름으로 변경하세요
-        String s3RefinedPath = "s3a://my-kafka-spark-bucket/refined_data/member_stream/";
-        String s3CheckpointPath = "s3a://my-kafka-spark-bucket/checkpoints/ex06/";
+        String s3RefinedPath = "s3a://my-kafka-spark-bucket-346903264902-ap-northeast-2-an/refined_data/";
+        String s3CheckpointPath = "s3a://my-kafka-spark-bucket-346903264902-ap-northeast-2-an/checkpoints/";
 
         StreamingQuery query = refinedDf.writeStream()
                 .outputMode("append")
