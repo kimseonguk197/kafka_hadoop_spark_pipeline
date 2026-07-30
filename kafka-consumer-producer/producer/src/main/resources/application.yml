@@ -4,3 +4,5 @@ spring:
   kafka:
 #    kafka서버의 url
     bootstrap-servers: localhost:9092
+    # MSK 클러스터의 브로커 엔드포인트 주소들을 콤마(,)로 구분하여 입력
+    # bootstrap-servers: b-1.msk-cluster.xxxx.c3.kafka.region.amazonaws.com:9092,b-2.msk-cluster.xxxx.c3.kafka.region.amazonaws.com:9092
